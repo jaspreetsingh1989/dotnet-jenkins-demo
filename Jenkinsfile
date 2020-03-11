@@ -33,6 +33,14 @@ stage('Build') {
             }
       }
    }
+ stage('Deploy') { 
+	steps {
+		dir('src\\dotnet-jenkins-demo'){ 
+		azureWebAppPublish azureCredentialsId: params.Azure_Cred_ID, 
+		resourceGroup: params.Resource_Group, appName: params.Web_APP, sourceDirectory: "/app" 
+		} 
+	} 
+}
  }
 }
 
