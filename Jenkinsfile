@@ -1,7 +1,15 @@
 pipeline {
     agent any
+    options {
+    skipDefaultCheckout()
+}
 
     stages {
+        stage ('Checkout') {
+        steps{
+            echo 'Checkout...'
+        }
+    }
         stage('Build') {
             steps {
                 echo 'Building...'
