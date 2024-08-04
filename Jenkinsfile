@@ -1,9 +1,4 @@
 pipeline {
-    agent any
-
-    options {
-    skipDefaultCheckout()
-}
     agent {
         docker {
             image 'mcr.microsoft.com/dotnet/sdk:3.1'
