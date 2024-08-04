@@ -1,14 +1,8 @@
 pipeline {
-
+    agent any
     options {
     skipDefaultCheckout()
 }
-    agent {
-        docker {
-            image 'mcr.microsoft.com/dotnet/sdk:3.1'
-            args '-v /var/jenkins_home:/var/jenkins_home'
-        }
-    }
     stages {
         stage ('Checkout') {
         steps{
@@ -21,17 +15,26 @@ pipeline {
             stash includes: '**', name: 'source', useDefaultExcludes: false
         }
     }
-            stage('Restore Packages') {
-            steps {
-                script {
-                    // Restore .NET Core 3.1 packages
-                    sh 'dotnet restore'
+
+        stage('Build') {
+            agent {
+                docker {
+                    image 'mcr.microsoft.com/dotnet/sdk:3.1'
+                    args '-v /var/jenkins_home:/var/jenkins_home'
                 }
             }
-        }
-        stage('Build') {
             steps {
-                echo 'Building...'
+                // Restore .NET Core packages
+                sh 'dotnet restore'
+                
+                // Build the .NET Core project
+                //sh 'dotnet build --configuration Release'
+                
+                // Run tests
+                //sh 'dotnet test'
+                
+                // Publish the .NET Core project
+                //sh 'dotnet publish --configuration Release --output ./publish'
             }
         }
         stage('Test') {
