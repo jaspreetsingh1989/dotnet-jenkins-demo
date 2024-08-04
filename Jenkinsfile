@@ -4,7 +4,12 @@ pipeline {
     options {
     skipDefaultCheckout()
 }
-
+    agent {
+        docker {
+            image 'mcr.microsoft.com/dotnet/sdk:3.1'
+            args '-v /var/jenkins_home:/var/jenkins_home'
+        }
+    }
     stages {
         stage ('Checkout') {
         steps{
