@@ -1,57 +1,56 @@
 pipeline {
-    options {
-    skipDefaultCheckout()
-}
     agent {
         docker {
-            image 'mcr.microsoft.com/dotnet/core/sdk:3.1' // Specify the Docker image to use
-            args '-v /var/run/docker.sock:/var/run/docker.sock' // Bind the Docker socket
+            image 'mcr.microsoft.com/dotnet/core/sdk:3.1'
+            args '-u root -v /var/run/docker.sock:/var/run/docker.sock'
         }
+    }
+    environment {
+        DOTNET_CLI_HOME = '/tmp/.dotnet'
+        NUGET_PACKAGES = '/tmp/.nuget/packages'
     }
     stages {
-        stage ('Checkout') {
-        steps{
-            echo 'Checkout...'
-            script {
-                    def workspaceDir = pwd()
-                    echo "Workspace Directory: ${workspaceDir}"
+        stage('Setup') {
+            steps {
+                script {
+                    sh 'mkdir -p /tmp/.dotnet && chown -R jenkins:jenkins /tmp/.dotnet'
+                    sh 'mkdir -p /tmp/.nuget/packages && chown -R jenkins:jenkins /tmp/.nuget/packages'
                 }
-            checkout(scm)
-            stash includes: '**', name: 'source', useDefaultExcludes: false
+            }
         }
-    }
-            stage('Restore') {
+        stage('Verify Docker') {
+            steps {
+                script {
+                    sh 'docker version' // Verify Docker CLI access
+                }
+            }
+        }
+        stage('Restore') {
             steps {
                 script {
                     sh 'dotnet restore' // Restore .NET dependencies
                 }
             }
         }
-
-        // stage('Build') {
-        //     steps {
-        //         script {
-        //             sh 'dotnet restore' // Restore .NET dependencies
-        //         }
-                
-        //         // Build the .NET Core project
-        //         //sh 'dotnet build --configuration Release'
-                
-        //         // Run tests
-        //         //sh 'dotnet test'
-                
-        //         // Publish the .NET Core project
-        //         //sh 'dotnet publish --configuration Release --output ./publish'
-        //     }
-        // }
-        stage('Test') {
+        stage('Build') {
             steps {
-                echo 'Testing...'
+                script {
+                    sh 'dotnet build' // Build the .NET project
+                }
             }
         }
-        stage('Deploy') {
+        stage('Test') {
             steps {
-                echo 'Deploying...'
+                script {
+                    sh 'dotnet test' // Run tests
+                }
+            }
+        }
+        stage('Publish') {
+            steps {
+                script {
+                    sh 'dotnet publish -o out' // Publish the .NET project
+                }
             }
         }
     }
