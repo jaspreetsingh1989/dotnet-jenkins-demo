@@ -20,23 +20,30 @@ pipeline {
             stash includes: '**', name: 'source', useDefaultExcludes: false
         }
     }
-
-        stage('Build') {
+            stage('Restore') {
             steps {
                 script {
                     sh 'dotnet restore' // Restore .NET dependencies
                 }
-                
-                // Build the .NET Core project
-                //sh 'dotnet build --configuration Release'
-                
-                // Run tests
-                //sh 'dotnet test'
-                
-                // Publish the .NET Core project
-                //sh 'dotnet publish --configuration Release --output ./publish'
             }
         }
+
+        // stage('Build') {
+        //     steps {
+        //         script {
+        //             sh 'dotnet restore' // Restore .NET dependencies
+        //         }
+                
+        //         // Build the .NET Core project
+        //         //sh 'dotnet build --configuration Release'
+                
+        //         // Run tests
+        //         //sh 'dotnet test'
+                
+        //         // Publish the .NET Core project
+        //         //sh 'dotnet publish --configuration Release --output ./publish'
+        //     }
+        // }
         stage('Test') {
             steps {
                 echo 'Testing...'
