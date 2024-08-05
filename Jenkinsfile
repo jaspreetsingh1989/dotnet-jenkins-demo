@@ -18,13 +18,13 @@ pipeline {
                 }
             }
         }
-        stage('Verify Docker') {
-            steps {
-                script {
-                    sh 'docker version' // Verify Docker CLI access
-                }
-            }
-        }
+        // stage('Verify Docker') {
+        //     steps {
+        //         script {
+        //             sh 'docker version' // Verify Docker CLI access
+        //         }
+        //     }
+        // }
         stage('Restore') {
             steps {
                 script {
