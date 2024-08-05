@@ -13,8 +13,8 @@ pipeline {
         stage('Setup') {
             steps {
                 script {
-                    sh 'mkdir -p /tmp/.dotnet && chown -R jenkins:jenkins /tmp/.dotnet'
-                    sh 'mkdir -p /tmp/.nuget/packages && chown -R jenkins:jenkins /tmp/.nuget/packages'
+                    sh 'mkdir -p /tmp/.dotnet && chown -R 1000:1000 /tmp/.dotnet'
+                    sh 'mkdir -p /tmp/.nuget/packages && chown -R 1000:1000 /tmp/.nuget/packages'
                 }
             }
         }
