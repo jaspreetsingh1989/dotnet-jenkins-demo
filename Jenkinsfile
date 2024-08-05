@@ -23,8 +23,9 @@ pipeline {
 
         stage('Build') {
             steps {
-                // Restore .NET Core packages
-                sh 'dotnet restore'
+                script {
+                    sh 'dotnet restore' // Restore .NET dependencies
+                }
                 
                 // Build the .NET Core project
                 //sh 'dotnet build --configuration Release'
