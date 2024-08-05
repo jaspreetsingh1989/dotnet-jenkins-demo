@@ -1,8 +1,13 @@
 pipeline {
-    agent any
     options {
     skipDefaultCheckout()
 }
+    agent {
+        docker {
+            image 'mcr.microsoft.com/dotnet/core/sdk:3.1' // Specify the Docker image to use
+            args '-v /var/run/docker.sock:/var/run/docker.sock' // Bind the Docker socket
+        }
+    }
     stages {
         stage ('Checkout') {
         steps{
@@ -17,12 +22,6 @@ pipeline {
     }
 
         stage('Build') {
-            agent {
-                docker {
-                    image 'mcr.microsoft.com/dotnet/sdk:3.1'
-                    args '-v /var/jenkins_home:/var/jenkins_home'
-                }
-            }
             steps {
                 // Restore .NET Core packages
                 sh 'dotnet restore'
