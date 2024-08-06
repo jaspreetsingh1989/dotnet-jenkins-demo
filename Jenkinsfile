@@ -54,6 +54,8 @@ pipeline {
         // }
         stage('Restore') {
             steps {
+            deleteDir()
+            unstash 'source'
                 script {
                     sh 'dotnet restore "src\\dotnet-jenkins-demo.sln"' // Restore .NET dependencies
                 }
@@ -61,6 +63,8 @@ pipeline {
         }
         stage('Build') {
             steps {
+                deleteDir()
+                unstash 'source'
                 dir('src\\dotnet-jenkins-demo'){
                 script {
                     sh 'dotnet build' // Build the .NET project
@@ -70,6 +74,8 @@ pipeline {
         }
         stage('Test') {
             steps {
+                deleteDir()
+                unstash 'source'
                 dir('src\\dotnet-jenkins-demo'){
                 script {
                     sh 'dotnet test' // Run tests
@@ -79,6 +85,8 @@ pipeline {
         }
         stage('Publish') {
             steps {
+                deleteDir()
+                unstash 'source'
                 dir('src\\dotnet-jenkins-demo'){
                 script {
                     sh 'dotnet publish -o out' // Publish the .NET project
