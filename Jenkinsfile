@@ -28,7 +28,7 @@ pipeline {
         stage('Restore') {
             steps {
                 script {
-                    sh 'dotnet restore' // Restore .NET dependencies
+                    sh 'dotnet restore "src\\dotnet-jenkins-demo.sln"' // Restore .NET dependencies
                 }
             }
         }
