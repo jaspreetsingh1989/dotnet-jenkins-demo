@@ -13,6 +13,16 @@ pipeline {
         NUGET_PACKAGES = '/tmp/.nuget/packages'
     }
     stages {
+        stage('Fix Permissions') {
+            steps {
+                script {
+                    // Change ownership to Jenkins user
+                    sh 'chown -R jenkins:jenkins src/dotnet-jenkins-demo'
+                    // Ensure Jenkins user has write permissions
+                    sh 'chmod -R u+w src/dotnet-jenkins-demo'
+                }
+            }
+        }
         stage('Clean Workspace') {
             steps {
                 deleteDir()
