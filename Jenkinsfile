@@ -27,6 +27,8 @@ pipeline {
         // }
         stage('Restore') {
             steps {
+                deleteDir()
+                unstash 'source'
                 script {
                     sh 'dotnet restore "src\\dotnet-jenkins-demo.sln"' // Restore .NET dependencies
                 }
