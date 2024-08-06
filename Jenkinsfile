@@ -27,8 +27,6 @@ pipeline {
         // }
         stage('Restore') {
             steps {
-                deleteDir()
-                unstash 'source'
                 script {
                     sh 'dotnet restore "src\\dotnet-jenkins-demo.sln"' // Restore .NET dependencies
                 }
@@ -36,8 +34,10 @@ pipeline {
         }
         stage('Build') {
             steps {
+                dir('src\\dotnet-jenkins-demo'){
                 script {
                     sh 'dotnet build' // Build the .NET project
+                }
                 }
             }
         }
