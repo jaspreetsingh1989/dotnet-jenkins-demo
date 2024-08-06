@@ -1,4 +1,7 @@
 pipeline {
+    options {
+    skipDefaultCheckout()
+}
     agent {
         docker {
             image 'mcr.microsoft.com/dotnet/core/sdk:3.1'
@@ -10,6 +13,11 @@ pipeline {
         NUGET_PACKAGES = '/tmp/.nuget/packages'
     }
     stages {
+        stage('Clean Workspace') {
+            steps {
+                deleteDir()
+            }
+        }
         stage('Setup') {
             steps {
                 script {
