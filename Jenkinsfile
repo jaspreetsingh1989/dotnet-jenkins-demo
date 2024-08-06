@@ -83,8 +83,6 @@ pipeline {
         }
         stage('Publish') {
             steps {
-                deleteDir()
-                unstash 'source'
                 dir('src\\dotnet-jenkins-demo'){
                 script {
                     sh 'dotnet publish -o out' // Publish the .NET project
