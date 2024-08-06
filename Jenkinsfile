@@ -17,7 +17,7 @@ pipeline {
             steps {
                 script {
                     // Change ownership to Jenkins user
-                    sh 'chown -R jenkins:jenkins src/dotnet-jenkins-demo'
+                    sh 'chown -R 1000:1000 src/dotnet-jenkins-demo'
                     // Ensure Jenkins user has write permissions
                     sh 'chmod -R u+w src/dotnet-jenkins-demo'
                 }
@@ -40,7 +40,7 @@ pipeline {
         steps{
             script{
             checkout(scm)
-            sh 'chown -R jenkins:jenkins $WORKSPACE'
+            sh 'chown -R 1000:1000 $WORKSPACE'
             stash includes: '**', name: 'source', useDefaultExcludes: false
         }
         }
