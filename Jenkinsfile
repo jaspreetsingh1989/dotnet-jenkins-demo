@@ -74,8 +74,6 @@ pipeline {
         }
         stage('Test') {
             steps {
-                deleteDir()
-                unstash 'source'
                 dir('src\\dotnet-jenkins-demo'){
                 script {
                     sh 'dotnet test' // Run tests
