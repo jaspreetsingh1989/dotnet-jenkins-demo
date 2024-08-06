@@ -18,6 +18,15 @@ pipeline {
                 }
             }
         }
+        stage ('Checkout') {
+        steps{
+            script{
+            checkout(scm)
+            sh 'chown -R jenkins:jenkins $WORKSPACE'
+            stash includes: '**', name: 'source', useDefaultExcludes: false
+        }
+        }
+    }
         // stage('Verify Docker') {
         //     steps {
         //         script {
