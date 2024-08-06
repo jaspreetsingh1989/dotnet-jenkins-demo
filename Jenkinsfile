@@ -43,15 +43,19 @@ pipeline {
         }
         stage('Test') {
             steps {
+                dir('src\\dotnet-jenkins-demo'){
                 script {
                     sh 'dotnet test' // Run tests
+                }
                 }
             }
         }
         stage('Publish') {
             steps {
+                dir('src\\dotnet-jenkins-demo'){
                 script {
                     sh 'dotnet publish -o out' // Publish the .NET project
+                }
                 }
             }
         }
