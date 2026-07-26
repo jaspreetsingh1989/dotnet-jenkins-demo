@@ -12,6 +12,12 @@ stage ('Checkout') {
             echo "checkout"
         }
     }
+stage('test'){
+        steps{
+            checkout(scm)
+            echo "Branch name  is: ${env.BRANCH_NAME}"
+        }
+    }
 stage ('Restore Packages') {     
          steps {
              echo "restore"            
@@ -28,6 +34,11 @@ stage('Deploy') {
  		echo "deploy"
  		}  
     }
+ }
+ post{
+    always{}
+    success{}
+    failure{}
  }
 }
 
