@@ -5,6 +5,12 @@ options {
     skipDefaultCheckout()
 }
 
+environment{
+NEW_VERSION = '1.1'
+TEST_CREDENTIALS = credentials('test-credentials')
+}
+
+
 stages {
 stage ('Checkout') {
         steps{
@@ -13,9 +19,20 @@ stage ('Checkout') {
         }
     }
 stage('test'){
+    when{
+        expression{
+            env.BRANCH_NAME == "master" || env.BRANCH_NAME == "dev"
+        }
+    }
         steps{
-            checkout(scm)
             echo "Branch name  is: ${env.BRANCH_NAME}"
+            echo "Version is ${NEW_VERSION}"
+               withCredentials([
+                    usernamePassword(credentials: 'test-credentials', usernameVariable: 'username', passwordVariable: 'password'),
+                ]) {
+                        echo "User name is ${username}"
+                        echo "Password is ${password}"
+                }
         }
     }
 stage ('Restore Packages') {     
@@ -33,7 +50,7 @@ stage('Deploy') {
  	steps {
  		echo "deploy"
  		}  
-    }
+    } 
  }
 // post{
 //    always{}
