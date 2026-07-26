@@ -28,7 +28,7 @@ stage('test'){
             echo "Branch name  is: ${env.BRANCH_NAME}"
             echo "Version is ${NEW_VERSION}"
                withCredentials([
-                    usernamePassword(credentials: 'test-credentials', usernameVariable: 'username', passwordVariable: 'password'),
+                    usernamePassword(credentialsId: 'test-credentials', usernameVariable: 'username', passwordVariable: 'password'),
                 ]) {
                         echo "User name is ${username}"
                         echo "Password is ${password}"
