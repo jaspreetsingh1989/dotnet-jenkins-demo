@@ -10,7 +10,7 @@ NEW_VERSION = '1.1'
 TEST_CREDENTIALS = credentials('test-credentials')
 }
 
-tools{}
+//tools{}
 
 parameters{
     string (name: 'Version', defaultValue: '', description: '')
