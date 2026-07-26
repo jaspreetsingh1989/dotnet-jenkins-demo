@@ -1,0 +1,33 @@
+pipeline {
+agent any
+ 
+options {
+    skipDefaultCheckout()
+}
+
+stages {
+stage ('Checkout') {
+        steps{
+            checkout(scm)
+            echo "checkout"
+        }
+    }
+stage ('Restore Packages') {     
+         steps {
+             echo "restore"            
+          }
+        }
+
+stage('Build') {
+     steps {
+            echo "build"
+      }
+   }
+stage('Deploy') { 
+ 	steps {
+ 		echo "deploy"
+ 		}  
+    }
+ }
+}
+
