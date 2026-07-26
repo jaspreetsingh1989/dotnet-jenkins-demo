@@ -13,10 +13,12 @@ TEST_CREDENTIALS = credentials('test-credentials')
 //tools{}
 
 parameters{
-    string (name: 'Version', defaultValue: '', description: '')
+    string (name: 'Environment', defaultValue: '', description: '')
     choice (name: 'Version', choices: ['1', '2'], description: '')
     booleanParam (name: 'IsValid', defaultValue: true, description: '')
 }
+
+def gv
 
 stages {
 stage ('Checkout') {
@@ -42,17 +44,21 @@ stage('test'){
                 }
         }
     }
-stage ('Restore Packages') {     
-         steps {
-             echo "restore"            
+stage ('Restore Packages') { 
+  steps {
+                script{ 
+             echo "restore"              
+            gv = load "script.groovy"           
           }
         }
-
+}
 stage('Build') {
-     steps {
-            echo "build"
+    steps {
+        script{
+            gv.buildApp()
       }
    }
+}
 stage('Deploy') { 
  	steps {
  		echo "deploy"
