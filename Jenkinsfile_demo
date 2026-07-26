@@ -10,6 +10,13 @@ NEW_VERSION = '1.1'
 TEST_CREDENTIALS = credentials('test-credentials')
 }
 
+tools{}
+
+parameters{
+    string (name: 'Version', defaultValue: '', description: '')
+    choice (name: 'Version', choices: ['1', '2'], description: '')
+    booleanParam (name: 'IsValid', defaultValue: true, description: '')
+}
 
 stages {
 stage ('Checkout') {
